@@ -43,33 +43,33 @@ cd examen
  Una vez que la aplicación esté en ejecución, puedes acceder a la interfaz gráfica en el navegador:
  👉 http://localhost:8080/swagger-ui/index.html
  Resumen de Endpoints Disponibles:
- Autenticación y Autorización (/api/auth) 
-   POST /api/auth/register - Registro de nuevos usuarios (Soporta ROLE_USER y ROLE_ADMIN). 
-     POST /api/auth/login - Autenticación de usuario con retorno de Token JWT.
-        Categorías 
-        (/api/categories)   GET /api/categories - Listado público de todas las categorías.  
-         POST /api/categories - Creación de una categoría (Ruta protegida, requiere rol ROLE_ADMIN).   
-         DELETE /api/categories/{id} - Eliminación de una categoría (Ruta protegida, requiere rol ROLE_ADMIN).
-            Productos
-             (/api/products)   GET /api/products - Listado público con filtros opcionales (name, categoryId, minPrice, maxPrice) y paginación. 
-              GET /api/products/{id} - Obtener el detalle de un producto por su ID.  
-               POST /api/products - Creación de un producto (Ruta protegida, requiere rol ROLE_ADMIN).
-                  DELETE /api/products/{id} - Eliminación de un producto (Ruta protegida, requiere rol ROLE_ADMIN). 
+Autenticación y Autorización (/api/auth) 
+POST /api/auth/register - Registro de nuevos usuarios (Soporta ROLE_USER y ROLE_ADMIN). 
+POST /api/auth/login - Autenticación de usuario con retorno de Token JWT.
+  Categorías 
+ (/api/categories)   GET /api/categories - Listado público de todas las categorías.  
+POST /api/categories - Creación de una categoría (Ruta protegida, requiere rol ROLE_ADMIN).   
+ DELETE /api/categories/{id} - Eliminación de una categoría (Ruta protegida, requiere rol ROLE_ADMIN).
+Productos
+(/api/products)   GET /api/products - Listado público con filtros opcionales (name, categoryId, minPrice, maxPrice) y paginación. 
+GET /api/products/{id} - Obtener el detalle de un producto por su ID.  
+ POST /api/products - Creación de un producto (Ruta protegida, requiere rol ROLE_ADMIN).
+ DELETE /api/products/{id} - Eliminación de un producto (Ruta protegida, requiere rol ROLE_ADMIN). 
                   
-                    Pasos para probar endpoints protegidos en Swagger:
-                    Realiza una petición POST en /api/auth/register enviando un JSON con "role": "ROLE_ADMIN". 
-                      Haz login en POST /api/auth/login con ese mismo usuario para obtener el token JWT en la respuesta.   
-                      En la esquina superior derecha de la interfaz de Swagger, haz clic en el botón "Authorize", pega el token generado y confirma. 
-                      ¡A partir de ese momento podrás ejecutar las operaciones de creación y eliminación!3.
-                       Decisiones de Diseño Tomadas
-                       Arquitectura en Capas:
-                        Se estructuró el proyecto separando responsabilidades de manera estricta (Controller → Service → Repository), facilitando la mantenibilidad, el orden y la escalabilidad del código.
-                           Uso de DTOs y Entidades Independientes:
-                            Se estructuró el modelo de datos relacional con JPA y Hibernate[cite: 1], previniendo problemas de referencias circulares con anotaciones de control JSON y manteniendo un acoplamiento limpio.
-                            Filtros Dinámicos con Specifications:
-                             Para cumplir con el requerimiento de búsqueda avanzada de productos (por nombre, categoría y rangos de precios)[cite: 1], se implementó JpaSpecificationExecutor, lo que permite construir consultas SQL dinámicas basadas en los parámetros opcionales enviados por el cliente de forma eficiente.
-                             Seguridad Stateless con JWT y Roles:
-                              Se configuró Spring Security para que la arquitectura no mantenga estado de sesión (stateless)[cite: 1]. Los accesos de lectura son públicos para agilizar las consultas del e-commerce, mientras que las operaciones críticas de administración están estrictamente protegidas mediante la validación de tokens Bearer y control de roles (ROLE_USER y ROLE_ADMIN)[cite: 1].
+Pasos para probar endpoints protegidos en Swagger:
+Realiza una petición POST en /api/auth/register enviando un JSON con "role": "ROLE_ADMIN". 
+  Haz login en POST /api/auth/login con ese mismo usuario para obtener el token JWT en la respuesta.   
+  En la esquina superior derecha de la interfaz de Swagger, haz clic en el botón "Authorize", pega el token generado y confirma. 
+¡A partir de ese momento podrás ejecutar las operaciones de creación y eliminación!
+3.Decisiones de Diseño Tomadas
+ Arquitectura en Capas:
+ Se estructuró el proyecto separando responsabilidades de manera estricta (Controller → Service → Repository), facilitando la mantenibilidad, el orden y la escalabilidad del código.
+ Uso de DTOs y Entidades Independientes:
+Se estructuró el modelo de datos relacional con JPA y Hibernate[cite: 1], previniendo problemas de referencias circulares con anotaciones de control JSON y manteniendo un acoplamiento limpio.
+ Filtros Dinámicos con Specifications:
+Para cumplir con el requerimiento de búsqueda avanzada de productos (por nombre, categoría y rangos de precios)[cite: 1], se implementó JpaSpecificationExecutor, lo que permite construir consultas SQL dinámicas basadas en los parámetros opcionales enviados por el cliente de forma eficiente.
+ Seguridad Stateless con JWT y Roles:
+Se configuró Spring Security para que la arquitectura no mantenga estado de sesión (stateless)[cite: 1]. Los accesos de lectura son públicos para agilizar las consultas del e-commerce, mientras que las operaciones críticas de administración están estrictamente protegidas mediante la validación de tokens Bearer y control de roles (ROLE_USER y ROLE_ADMIN)[cite: 1].
 
 3.decisiones tomadas
 1. Arquitectura en Capas (Clean Architecture)
